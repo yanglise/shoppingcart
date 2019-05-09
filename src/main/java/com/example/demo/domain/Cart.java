@@ -1,7 +1,6 @@
 package com.example.demo.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +22,12 @@ public class Cart {
     @Id
     private String id;
 
+    @JsonIgnore
     @NotNull
     @Indexed(unique = true)
-    @JsonProperty(access = Access.READ_ONLY)
     private String sessionId;
 
-    @JsonProperty(access = Access.READ_ONLY)
+    @JsonIgnore
     private Map<String, Integer> products;
 
     @Transient
