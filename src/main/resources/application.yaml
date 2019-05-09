@@ -1,1 +1,16 @@
+server:
+  port: 8080
+  servlet:
+    session:
+      cookie:
+        name: JSESSIONID_SHOPPING_CART
+        max-age: 1d
 
+spring:
+  session:
+    store-type: mongodb
+  data:
+    mongodb:
+      host: localhost
+      database: shoppingcart
+      port: 27017
