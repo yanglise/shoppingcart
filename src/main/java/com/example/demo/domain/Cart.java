@@ -2,8 +2,10 @@ package com.example.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
@@ -30,6 +32,7 @@ public class Cart {
     private Map<String, Integer> products;
 
     @Transient
+    @Valid
     private List<LineItem> lineItems;
 
     public Cart(String sessionId) {
@@ -58,6 +61,13 @@ public class Cart {
 
     public void setProducts(Map<String, Integer> products) {
         this.products = products;
+    }
+
+    public void setProduct(String productId, Integer quantity) {
+        if (products == null) {
+            products = new LinkedHashMap<>();
+        }
+        products.put(productId, quantity);
     }
 
     public List<LineItem> getLineItems() {

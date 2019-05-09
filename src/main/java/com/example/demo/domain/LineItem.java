@@ -3,6 +3,9 @@ package com.example.demo.domain;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Record keeper for product along with its quantity and subtotals
+ */
 public class LineItem {
 
     @NotNull

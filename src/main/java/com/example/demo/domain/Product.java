@@ -5,6 +5,9 @@ import javax.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Product representation for mongo collection
+ */
 @Document(collection = "product")
 public class Product {
 
