@@ -1,12 +1,19 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {fetchProducts} from "../actions/actions";
+import {fetchProducts, updateProduct} from "../actions/actions";
 import {Col, Grid, Row} from "react-bootstrap";
 import Product from "../views/Product";
 
 class ProductController extends Component {
   componentDidMount() {
     this.props.fetchProducts();
+  }
+
+  addProduct(id) {
+    let cart = this.props.cart;
+    let lineItems = cart.lineItems ? cart.lineItems : [];
+    let lineItem = lineItems.find(lineItem => lineItem.product.id === id);
+    return this.props.updateProduct(id, lineItem ? lineItem.quantity + 1 : 1);
   }
 
   render() {
@@ -20,6 +27,7 @@ class ProductController extends Component {
                      description={product.description}
                      imageUrl={product.imageUrl}
                      price={product.price}
+                     handler={() => this.addProduct(product.id)}
             />
           </Col>
       )
@@ -37,6 +45,7 @@ class ProductController extends Component {
 
 function mapStateToProps(state) {
   return {
+    cart: state.content.cart,
     products: state.content.products
   }
 }
@@ -45,6 +54,9 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchProducts: () => {
       dispatch(fetchProducts())
+    },
+    updateProduct: (id, quantity) => {
+      dispatch(updateProduct(id, quantity))
     }
   }
 }

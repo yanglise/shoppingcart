@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Button,
   Col,
   Grid,
   Image,
@@ -10,7 +11,7 @@ import {
 } from "react-bootstrap";
 
 const Product = (props) => {
-  const {name, description, imageUrl, price} = props;
+  const {name, description, imageUrl, price, handler} = props;
   return (
     <Panel bsStyle={"primary"}>
       <Panel.Heading>
@@ -26,6 +27,9 @@ const Product = (props) => {
               <ListGroup>
                 <ListGroupItem>{description}</ListGroupItem>
                 <ListGroupItem>${price.toFixed(2)}</ListGroupItem>
+                <ListGroupItem>
+                  <Button bsStyle={"success"} onClick={() => handler()}>Add to Cart</Button>
+                </ListGroupItem>
               </ListGroup>
             </Col>
           </Row>

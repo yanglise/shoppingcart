@@ -9,13 +9,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -47,14 +49,16 @@ public class CartController {
     /**
      * Update product quantity by ID and quantity
      *
-     * @param productId the product ID
-     * @param quantity the quantity to be updated
      * @param httpSession the http session
+     * @param productRequest the request body for updating the product
      * @return response that wraps the updated {@link Cart} object
      */
     @PatchMapping
-    public ResponseEntity<?> updateProduct(@RequestParam String productId, @RequestParam(defaultValue = "0") Integer quantity, HttpSession httpSession) {
+    public ResponseEntity<?> updateProduct(HttpSession httpSession, @Valid @RequestBody ProductRequest productRequest) {
         Cart cart = findBySessionId(httpSession.getId());
+
+        String productId = productRequest.getProductId();
+        Integer quantity = productRequest.getQuantity();
 
         // Make sure product exists with the given ID, throw exception if not found
         productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException(String.format("Product not found with ID '%s'", productId)));
@@ -65,25 +69,6 @@ public class CartController {
         } else {
             cart.setProduct(productId, quantity);
         }
-
-        refreshLineItems(cart);
-        cart = cartRepository.save(cart);
-
-        return ResponseEntity.ok(cart);
-    }
-
-    /**
-     * Delete product by ID
-     *
-     * @param productId the productID
-     * @param httpSession the http session
-     * @return response that wraps the updated {@link Cart} object
-     */
-    @DeleteMapping
-    public ResponseEntity<?> deleteProduct(@RequestParam String productId, HttpSession httpSession) {
-        Cart cart = cartRepository.findBySessionId(httpSession.getId())
-            .orElseThrow(() -> new ResourceNotFoundException("Cart not found with current session"));
-        Optional.ofNullable(cart.getProducts()).ifPresent(products -> products.remove(productId));
 
         refreshLineItems(cart);
         cart = cartRepository.save(cart);
@@ -113,5 +98,34 @@ public class CartController {
 
         // Update the line items within the cart
         cart.setLineItems(lineItems);
+    }
+
+    /**
+     * Product request representation
+     */
+    private static class ProductRequest {
+
+        @NotNull
+        private String productId;
+
+        @NotNull
+        @Min(0)
+        private Integer quantity;
+
+        public String getProductId() {
+            return productId;
+        }
+
+        public void setProductId(String productId) {
+            this.productId = productId;
+        }
+
+        public Integer getQuantity() {
+            return quantity;
+        }
+
+        public void setQuantity(Integer quantity) {
+            this.quantity = quantity;
+        }
     }
 }

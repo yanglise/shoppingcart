@@ -1,5 +1,5 @@
 import React from "react";
-import {Navbar} from "react-bootstrap";
+import {Nav, Navbar, NavItem} from "react-bootstrap";
 import {LinkContainer} from "react-router-bootstrap";
 
 const Header = () => {
@@ -12,6 +12,14 @@ const Header = () => {
           </Navbar.Brand>
         </LinkContainer>
       </Navbar.Header>
+      <Nav>
+        <LinkContainer to={"/cart"}>
+          <NavItem eventKey={1}>
+            Cart
+          </NavItem>
+        </LinkContainer>
+      </Nav>
+
     </Navbar>
   );
 };
