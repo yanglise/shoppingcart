@@ -24,7 +24,7 @@ $ yarn install
 ## Run
 Start the backend
 ```bash
-$ ./gradle bootRun
+$ ./gradlew bootRun
 ```
 
 Initialize mongodb with products data
