@@ -4,6 +4,7 @@ import Header from "./views/Header";
 import ProductController from "./controllers/ProductController";
 import CartController from "./controllers/CartController";
 import OrderController from "./controllers/OrderController";
+import ErrorController from "./controllers/ErrorController";
 
 class APP extends React.Component {
   render() {
@@ -12,6 +13,7 @@ class APP extends React.Component {
         <Router>
           <div>
             <Header/>
+            <ErrorController/>
             <Route exact path="/" component={ProductController}/>
             <Route path="/cart" component={CartController}/>
             <Route path="/order" component={OrderController}/>

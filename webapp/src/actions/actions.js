@@ -1,5 +1,12 @@
 import axios from "axios";
-import {FETCH_CART, FETCH_ORDERS, FETCH_PRODUCTS, UPDATE_CART} from "./types";
+import {
+  FETCH_CART,
+  FETCH_ORDERS,
+  FETCH_PRODUCTS,
+  HIDE_ERROR,
+  SHOW_ERROR,
+  UPDATE_CART
+} from "./types";
 
 export const fetchProducts = () => {
   return function (dispatch) {
@@ -8,7 +15,7 @@ export const fetchProducts = () => {
       dispatch({type: FETCH_PRODUCTS, payload: response.data});
     })
     .catch(error => {
-      console.log(error.response);
+      dispatch({type: SHOW_ERROR, payload: error.response});
     })
   }
 };
@@ -20,7 +27,7 @@ export const fetchCart = () => {
       dispatch({type: FETCH_CART, payload: response.data});
     })
     .catch(error => {
-      console.log(error.response);
+      dispatch({type: SHOW_ERROR, payload: error.response});
     })
   }
 };
@@ -35,7 +42,7 @@ export const updateProduct = (id, quantity) => {
       dispatch({type: UPDATE_CART, payload: response.data});
     })
     .catch(error => {
-      console.log(error.response);
+      dispatch({type: SHOW_ERROR, payload: error.response});
     })
   }
 };
@@ -48,7 +55,7 @@ export const fetchOrders = () => {
       dispatch({type: FETCH_ORDERS, payload: response.data});
     })
     .catch(error => {
-      console.log(error.response);
+      dispatch({type: SHOW_ERROR, payload: error.response});
     })
   }
 };
@@ -61,7 +68,13 @@ export const checkout = () => {
       dispatch(fetchCart());
     })
     .catch(error => {
-      console.log(error.response);
+      dispatch({type: SHOW_ERROR, payload: error.response});
     })
+  }
+};
+
+export const hideError = () => {
+  return function (dispatch) {
+    dispatch({type: HIDE_ERROR});
   }
 };

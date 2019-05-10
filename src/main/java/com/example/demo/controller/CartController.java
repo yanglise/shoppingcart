@@ -103,7 +103,7 @@ public class CartController {
     /**
      * Product request representation
      */
-    private static class ProductRequest {
+    static class ProductRequest {
 
         @NotNull
         private String productId;

@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**")
                     .permitAll()
                 .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
         //@formatter:on
     }
 }
