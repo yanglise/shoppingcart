@@ -25,7 +25,7 @@ class CartController extends Component {
                     price={product.price}
                     quantity={quantity}
                     subtotal={subtotal}
-                    handler={(value) => this.props.updateProduct(product.id, value)}
+                    handler={(quantity) => this.props.updateProduct(product.id, parseInt(quantity, 10))}
           />
         </Col>
       )

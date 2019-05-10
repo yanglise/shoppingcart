@@ -1,6 +1,10 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {fetchProducts, updateProduct} from "../actions/actions";
+import {
+  fetchProducts,
+  updateProduct,
+  updateProductQuantity
+} from "../actions/actions";
 import {Col, Grid, Row} from "react-bootstrap";
 import Product from "../views/Product";
 
@@ -9,11 +13,17 @@ class ProductController extends Component {
     this.props.fetchProducts();
   }
 
-  addProduct(id) {
+  addToCart(id) {
     let cart = this.props.cart;
+    let products = this.props.products ? this.props.products : [];
+    let product = products.find(product => product.id === id);
     let lineItems = cart.lineItems ? cart.lineItems : [];
     let lineItem = lineItems.find(lineItem => lineItem.product.id === id);
-    return this.props.updateProduct(id, lineItem ? lineItem.quantity + 1 : 1);
+    let quantity = product ? parseInt(product.quantity, 10) : 1;
+    if (lineItem) {
+      quantity += parseInt(lineItem.quantity, 10)
+    }
+    return this.props.updateProduct(id, quantity);
   }
 
   render() {
@@ -27,7 +37,9 @@ class ProductController extends Component {
                    description={product.description}
                    imageUrl={product.imageUrl}
                    price={product.price}
-                   handler={() => this.addProduct(product.id)}
+                   quantity={product.quantity}
+                   updateHandler={(quantity) => this.props.updateProductQuantity(product.id, quantity)}
+                   addHandler={() => this.addToCart(product.id)}
           />
         </Col>
       )
@@ -55,6 +67,9 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchProducts: () => {
       dispatch(fetchProducts())
+    },
+    updateProductQuantity: (id, quantity) => {
+      dispatch(updateProductQuantity(id, quantity))
     },
     updateProduct: (id, quantity) => {
       dispatch(updateProduct(id, quantity))

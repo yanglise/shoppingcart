@@ -2,6 +2,10 @@ import React from "react";
 import {
   Button,
   Col,
+  ControlLabel,
+  Form,
+  FormControl,
+  FormGroup,
   Grid,
   Image,
   ListGroup,
@@ -11,7 +15,7 @@ import {
 } from "react-bootstrap";
 
 const Product = (props) => {
-  const {name, description, imageUrl, price, handler} = props;
+  const {name, description, imageUrl, price, quantity, updateHandler, addHandler} = props;
   return (
     <Panel bsStyle={"primary"}>
       <Panel.Heading>
@@ -28,7 +32,13 @@ const Product = (props) => {
                 <ListGroupItem>{description}</ListGroupItem>
                 <ListGroupItem>${price.toFixed(2)}</ListGroupItem>
                 <ListGroupItem>
-                  <Button bsStyle={"success"} onClick={() => handler()}>Add to Cart</Button>
+                  <Form inline>
+                    <FormGroup>
+                      <ControlLabel>Quantity:</ControlLabel>{" "}
+                      <FormControl type={"number"} value={quantity} onChange={(e) => updateHandler(e.target.value)}/>
+                    </FormGroup>{" "}
+                    <Button bsStyle={"success"} onClick={() => addHandler()}>Add to Cart</Button>
+                  </Form>
                 </ListGroupItem>
               </ListGroup>
             </Col>

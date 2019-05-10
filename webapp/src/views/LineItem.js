@@ -32,11 +32,12 @@ const LineItem = (props) => {
                   <ListGroupItem>{description}</ListGroupItem>
                   <ListGroupItem>${price.toFixed(2)}</ListGroupItem>
                   {
-                    handler != null && <ListGroupItem>
+                    handler != null &&
+                    <ListGroupItem>
                       <Form inline>
                         <FormGroup>
                           <ControlLabel>Quantity:</ControlLabel>{" "}
-                          <FormControl type="number" value={quantity || ""} onChange={(e) => handler(e.target.value)}/>
+                          <FormControl type={"number"} value={quantity || ""} onChange={(e) => handler(e.target.value)}/>
                         </FormGroup>{" "}
                         <Button bsStyle={"danger"} onClick={() => handler(0)}>Delete</Button>
                       </Form>

@@ -5,18 +5,26 @@ import {
   FETCH_PRODUCTS,
   HIDE_ERROR,
   SHOW_ERROR,
-  UPDATE_CART
+  UPDATE_CART,
+  UPDATE_PRODUCT_QUANTITY
 } from "./types";
 
 export const fetchProducts = () => {
   return function (dispatch) {
     return axios.get("/product/all")
     .then(response => {
+      response.data.forEach((product) => {product["quantity"] = 1});
       dispatch({type: FETCH_PRODUCTS, payload: response.data});
     })
     .catch(error => {
       dispatch({type: SHOW_ERROR, payload: error.response});
     })
+  }
+};
+
+export const updateProductQuantity = (id, quantity) => {
+  return function (dispatch) {
+    dispatch({type: UPDATE_PRODUCT_QUANTITY, payload: {id: id, quantity: quantity}});
   }
 };
 
