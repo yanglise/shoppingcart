@@ -22,23 +22,24 @@ class ProductController extends Component {
     for (let i = 0; i < products.length; i++) {
       let product = products[i];
       productViews.push(
-          <Col key={i} xs={12} md={12}>
-            <Product name={product.name}
-                     description={product.description}
-                     imageUrl={product.imageUrl}
-                     price={product.price}
-                     handler={() => this.addProduct(product.id)}
-            />
-          </Col>
+        <Col key={i} xs={12} md={12}>
+          <Product name={product.name}
+                   description={product.description}
+                   imageUrl={product.imageUrl}
+                   price={product.price}
+                   handler={() => this.addProduct(product.id)}
+          />
+        </Col>
       )
     }
     return (
-        <Grid>
-          <h2>Products</h2>
-          <Row>
-            {productViews}
-          </Row>
-        </Grid>
+      <Grid>
+        {productViews.length === 0 && <h2>No products available.</h2>}
+        {productViews.length !== 0 && <h2>Products</h2>}
+        <Row>
+          {productViews}
+        </Row>
+      </Grid>
     );
   }
 }

@@ -18,8 +18,12 @@ const Header = () => {
             Cart
           </NavItem>
         </LinkContainer>
+        <LinkContainer to={"/order"}>
+          <NavItem eventKey={2}>
+            Order
+          </NavItem>
+        </LinkContainer>
       </Nav>
-
     </Navbar>
   );
 };

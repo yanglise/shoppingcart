@@ -1,8 +1,14 @@
-import {FETCH_CART, FETCH_PRODUCTS, UPDATE_CART} from "../actions/types";
+import {
+  FETCH_CART,
+  FETCH_ORDERS,
+  FETCH_PRODUCTS,
+  UPDATE_CART
+} from "../actions/types";
 
 export default function reducer(state = {
   products: [],
-  cart: {}
+  cart: {},
+  orders: []
 }, action) {
   switch (action.type) {
     case FETCH_PRODUCTS:
@@ -11,6 +17,8 @@ export default function reducer(state = {
       return {...state, cart: action.payload, error: null};
     case UPDATE_CART:
       return {...state, cart: action.payload, error: null};
+    case FETCH_ORDERS:
+      return {...state, orders: action.payload, error: null};
     default:
       return state;
   }

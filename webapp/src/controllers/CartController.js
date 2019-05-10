@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {fetchCart, updateProduct} from "../actions/actions";
-import {Col, Grid, Row} from "react-bootstrap";
+import {checkout, fetchCart, updateProduct} from "../actions/actions";
+import {Button, Col, Grid, Row} from "react-bootstrap";
 import LineItem from "../views/LineItem";
 
 class CartController extends Component {
@@ -18,30 +18,34 @@ class CartController extends Component {
       let quantity = lineItems[i].quantity;
       let subtotal = lineItems[i].subtotal;
       lineItemViews.push(
-          <Col key={i} xs={12} md={12}>
-            <LineItem name={product.name}
-                      description={product.description}
-                      imageUrl={product.imageUrl}
-                      price={product.price}
-                      quantity={quantity}
-                      subtotal={subtotal}
-                      handler={(value) => this.props.updateProduct(product.id, value)}
-            />
-          </Col>
+        <Col key={i} xs={12} md={12}>
+          <LineItem name={product.name}
+                    description={product.description}
+                    imageUrl={product.imageUrl}
+                    price={product.price}
+                    quantity={quantity}
+                    subtotal={subtotal}
+                    handler={(value) => this.props.updateProduct(product.id, value)}
+          />
+        </Col>
       )
     }
     return (
-        <Grid>
-          <Row>
-            <Col xs={6} md={6}>
-              {lineItemViews.length === 0 && <h2>Your cart is empty.</h2>}
-              {lineItemViews.length !== 0 && <h2>Cart</h2>}
-            </Col>
-          </Row>
-          <Row>
-            {lineItemViews}
-          </Row>
-        </Grid>
+      <Grid>
+        <Row>
+          <Col xs={6} md={6}>
+            {lineItemViews.length === 0 && <h2>Your cart is empty.</h2>}
+            {lineItemViews.length !== 0 && <h2>Cart</h2>}
+          </Col>
+          <Col xs={6} md={6}>
+            {lineItemViews.length !== 0 && <h2><Button className={"pull-right"} bsStyle={"success"} onClick={() => this.props.checkout()}>Checkout</Button></h2>}
+          </Col>
+
+        </Row>
+        <Row>
+          {lineItemViews}
+        </Row>
+      </Grid>
     );
   }
 }
@@ -59,8 +63,10 @@ function mapDispatchToProps(dispatch) {
     },
     updateProduct: (id, quantity) => {
       dispatch(updateProduct(id, quantity))
+    },
+    checkout: () => {
+      dispatch(checkout())
     }
-
   }
 }
 

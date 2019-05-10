@@ -15,7 +15,7 @@ import {
 } from "react-bootstrap";
 
 const LineItem = (props) => {
-  const {name, description, imageUrl, price, quantity, subtotal, handler} = props;
+  const {name, description, imageUrl, price, quantity, subtotal, handler = null} = props;
   return (
       <Panel bsStyle={"primary"}>
         <Panel.Heading>
@@ -31,15 +31,18 @@ const LineItem = (props) => {
                 <ListGroup>
                   <ListGroupItem>{description}</ListGroupItem>
                   <ListGroupItem>${price.toFixed(2)}</ListGroupItem>
-                  <ListGroupItem>
-                    <Form inline>
-                      <FormGroup>
-                        <ControlLabel>Quantity:</ControlLabel>{" "}
-                        <FormControl type="number" value={quantity || ""} onChange={(e) => handler(e.target.value)}/>
-                      </FormGroup>{" "}
-                      <Button bsStyle={"danger"} onClick={() => handler(0)}>Delete</Button>
-                    </Form>
-                  </ListGroupItem>
+                  {
+                    handler != null && <ListGroupItem>
+                      <Form inline>
+                        <FormGroup>
+                          <ControlLabel>Quantity:</ControlLabel>{" "}
+                          <FormControl type="number" value={quantity || ""} onChange={(e) => handler(e.target.value)}/>
+                        </FormGroup>{" "}
+                        <Button bsStyle={"danger"} onClick={() => handler(0)}>Delete</Button>
+                      </Form>
+                    </ListGroupItem>
+                  }
+                  {handler == null && <ListGroupItem><b>Quantity:</b> {quantity}</ListGroupItem>}
                   <ListGroupItem><b>Subtotal:</b> ${subtotal.toFixed(2)}</ListGroupItem>
                 </ListGroup>
               </Col>
